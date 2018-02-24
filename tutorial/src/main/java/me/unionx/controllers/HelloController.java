@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @EnableAutoConfiguration
@@ -38,8 +40,14 @@ public class HelloController {
 
     @RequestMapping("/plus5/{number}")
     @ResponseBody
-    Integer plus5(@PathVariable Integer number) {
-        return 5 + number;
+    Map plus5(@PathVariable Integer number) {
+        String calculation = "5 + " + number;
+        Integer result = 5 + number;
+
+        HashMap<String, String> returnValue = new HashMap<String, String>();
+        returnValue.put("Calculation is", calculation);
+        returnValue.put("Result is", result.toString());
+        return returnValue;
     }
 
     @RequestMapping("/home")
