@@ -13,9 +13,10 @@
 
 ## 基本概念
 
-- 模板拼接
+- [JSP 模板](http://www.runoob.com/jsp/jsp-tutorial.html)
 - 浏览器渲染
-- HTTP
+- [HTTP](http://www.runoob.com/http/http-tutorial.html)
+- [JSON](http://www.w3school.com.cn/json/index.asp)
 
 ## 实现功能
 
