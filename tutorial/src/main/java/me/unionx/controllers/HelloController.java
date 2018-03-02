@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.DateFormat;
@@ -18,10 +19,11 @@ import java.util.Map;
 @EnableAutoConfiguration
 public class HelloController {
 
+    private static String name = "";
+
     @RequestMapping("/")
-    @ResponseBody
-    String hello() {
-        return "Hello, world.";
+    String index() {
+        return "index";
     }
 
     @RequestMapping("/time")
@@ -32,10 +34,16 @@ public class HelloController {
         return dateFormat.format(date);
     }
 
-    @RequestMapping("/hello/{name}")
-    String hello(Model model, @PathVariable String name) {
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    String hello(Model model) {
         model.addAttribute("name", name);
         return "hello";
+    }
+
+    @RequestMapping(value = "/sayHello", method = RequestMethod.POST)
+    String sayHello(String username) {
+        name = username;
+        return "redirect:/hello";
     }
 
     @RequestMapping("/plus5/{number}")
@@ -48,11 +56,6 @@ public class HelloController {
         returnValue.put("Calculation is", calculation);
         returnValue.put("Result is", result.toString());
         return returnValue;
-    }
-
-    @RequestMapping("/home")
-    String home() {
-        return "index";
     }
 
     public static void main(String[] args) {
