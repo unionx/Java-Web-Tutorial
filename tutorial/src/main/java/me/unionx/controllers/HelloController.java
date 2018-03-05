@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @EnableAutoConfiguration
 public class HelloController {
 
     private static String name = "";
+    private static List todoList;
 
     @RequestMapping("/")
     String index() {
@@ -56,6 +55,22 @@ public class HelloController {
         returnValue.put("Calculation is", calculation);
         returnValue.put("Result is", result.toString());
         return returnValue;
+    }
+
+    @RequestMapping("/todo")
+    String todo(Model model) {
+        if (todoList == null) {
+            todoList = new ArrayList<String>();
+        }
+
+        model.addAttribute("todoList", todoList);
+        return "todo";
+    }
+
+    @RequestMapping(value = "/add-todo", method = RequestMethod.POST)
+    String addTodo(String content) {
+        todoList.add(content);
+        return "redirect:/todo";
     }
 
     public static void main(String[] args) {
