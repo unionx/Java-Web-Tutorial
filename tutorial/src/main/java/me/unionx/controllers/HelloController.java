@@ -2,12 +2,10 @@ package me.unionx.controllers;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -67,10 +65,16 @@ public class HelloController {
         return "todo";
     }
 
-    @RequestMapping(value = "/add-todo", method = RequestMethod.POST)
+    @RequestMapping(value = "/todo", method = RequestMethod.POST)
     String addTodo(String content) {
         todoList.add(content);
         return "redirect:/todo";
+    }
+
+    @RequestMapping(value = "/todo", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.OK)
+    void deleteTodo(String content) {
+        todoList.remove(content);
     }
 
     public static void main(String[] args) {
