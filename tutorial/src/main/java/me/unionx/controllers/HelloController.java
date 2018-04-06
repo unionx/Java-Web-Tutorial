@@ -71,6 +71,13 @@ public class HelloController {
         return "redirect:/todo";
     }
 
+    @RequestMapping(value = "/updateTodo", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    void updateTodo(String item, String update) {
+        Integer index = todoList.indexOf(item);
+        todoList.set(index, update);
+    }
+
     @RequestMapping(value = "/todo", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
     void deleteTodo(String content) {

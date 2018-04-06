@@ -43,6 +43,8 @@
             <tr>
                 <td><c:out value="${item}" /></td>
                 <td>
+                    <button type="button" class="btn btn-primary btn-sm update-btn" style="margin-left:10px;padding:5px;"
+                            data-item="${item}" data-toggle="modal" data-target="#updateItem">修改</button>
                     <button type="button" class="btn btn-danger btn-sm"
                             onclick='deleteTodo("${item}")' style="margin-left:10px;padding:5px;">删除</button>
                 </td>
@@ -54,19 +56,58 @@
     </ul>
 </div>
 
+<!-- 修改 -->
+<div class="modal fade" id="updateItem" tabindex="-1" role="dialog" aria-labelledby="updateItemLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="updateItemLabel">修改记录</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" id="item" name="item">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="submit">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="application/javascript" src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="application/javascript">
-    function deleteTodo(content) {
-        $.ajax({
-            url: '/todo?content=' + content,
-            type: 'DELETE',
-            success: function(result) {
-                location.reload();
-            }
+    $(document).ready(function() {
+        var itemContent = "";
+
+        $(".update-btn").click(function() {
+            itemContent = $(this).attr("data-item");
+            $("#item").val(itemContent);
         });
-    }
+
+        $("#submit").click(function() {
+            var updateContent = $("#item").val();
+            $.post("/updateTodo",
+                {"item": itemContent, "update": updateContent},
+                function() {
+                    location.reload();
+                });
+        });
+
+        function deleteTodo(content) {
+            $.ajax({
+                url: '/todo?content=' + content,
+                type: 'DELETE',
+                success: function(result) {
+                    location.reload();
+                }
+            });
+        }
+    });
 </script>
 </body>
 </html>
